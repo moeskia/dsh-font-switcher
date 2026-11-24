@@ -1,22 +1,45 @@
 {
   "name": "dsh-font-switcher",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Choose the DSH Web UI text and code fonts in Settings, so Latin and CJK text share one weight table.",
   "type": "module",
   "license": "MIT",
   "private": false,
-  "keywords": ["dsh", "dsh-plugin", "deepseek-harness", "font", "font-family", "cjk"],
-  "repository": { "type": "git", "url": "git+https://github.com/moeskia/dsh-font-switcher.git" },
-  "engines": { "node": ">=20" },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "font",
+    "font-family",
+    "cjk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moeskia/dsh-font-switcher.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "exports": {
     ".": "./index.js",
     "./client": "./client.js",
     "./locale/*.json": "./locale/*.json",
     "./icon": "./icon.svg"
   },
-  "files": ["index.js", "client.js", "cordis.patch.yml", "locale/*.json", "docs", "icon.svg", "README.md", "LICENSE"],
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
   "dsh": {
-    "bundle": { "patch": "./cordis.patch.yml" },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
     "client": {
       "platform": "web",
       "immediately": true,

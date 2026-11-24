@@ -49,6 +49,7 @@ window.__ModuleLoader__.load({
       'no-field': 'e.noField',
       'no-entry': 'e.noEntry',
       'body-too-large': 'e.tooLarge',
+      body: 'e.body',
       'save-failed': 'e.saveFailed',
     }
 
@@ -82,6 +83,7 @@ window.__ModuleLoader__.load({
         'e.noField': '请求里没有字体字段，未保存',
         'e.noEntry': '当前 Profile 无法保存配置',
         'e.tooLarge': '请求过大，未保存',
+        'e.body': '请求读取失败，未保存',
         'e.saveFailed': '配置写入被拒绝',
         'p.yahei': '微软雅黑',
         'p.pingfang': '苹方',
@@ -121,6 +123,7 @@ window.__ModuleLoader__.load({
         'e.noField': 'The request carried no font field; nothing was saved',
         'e.noEntry': 'This profile cannot save configuration',
         'e.tooLarge': 'The request was too large; nothing was saved',
+        'e.body': 'The request could not be read; nothing was saved',
         'e.saveFailed': 'The configuration write was refused',
         'p.yahei': 'Microsoft YaHei',
         'p.pingfang': 'PingFang SC',
@@ -181,14 +184,13 @@ window.__ModuleLoader__.load({
       style.textContent = rules.length === 0 ? '' : `html body{${rules.join('')}}`
     }
 
-    /** Install the page stylesheet once, and return its cleanup. */
+    /** Install the page stylesheet once; `disposeStyles` removes it. */
     function ensureStyles() {
-      if (document.getElementById(CSS_ID) !== null) return () => {}
+      if (document.getElementById(CSS_ID) !== null) return
       const style = document.createElement('style')
       style.id = CSS_ID
       style.textContent = CSS
       document.head.append(style)
-      return () => document.getElementById(CSS_ID)?.remove()
     }
 
     /** Remove every style this module added. */
@@ -244,7 +246,7 @@ window.__ModuleLoader__.load({
         setCustomMode(!presets.some((preset) => preset.id === value))
       }, [value, presets])
 
-      const current = customMode ? '__custom__' : known ? value : '__custom__'
+      const current = customMode ? '__custom__' : value
       const draftValue = draft.trim()
       const canApply = editable && draftValue !== '' && draftValue !== value
 
@@ -376,7 +378,7 @@ window.__ModuleLoader__.load({
       }, [notice])
 
       const commit = (field, value) => {
-        const current = pairRef.current ?? state.value ?? {}
+        const current = pairRef.current ?? {}
         const previous = current[field] ?? ''
         const optimistic = { ...current, [field]: value }
         setState((latest) => ({ ...latest, status: 'ready', value: optimistic }))
@@ -476,8 +478,10 @@ window.__ModuleLoader__.load({
         ctx.effect(() => ctx.locale.register(NS, DICT), 'font-switcher: dictionaries')
         const t = ctx.locale.bind(NS)
 
-        ctx.effect(() => ensureStyles(), 'font-switcher: page stylesheet')
-        ctx.effect(() => disposeStyles, 'font-switcher: stylesheets')
+        ctx.effect(() => {
+          ensureStyles()
+          return disposeStyles
+        }, 'font-switcher: stylesheets')
 
         // Apply the stored stack as soon as the page boots, so a window opened
         // from a saved config does not flash the built-in stack.

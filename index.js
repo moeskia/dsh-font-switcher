@@ -191,7 +191,7 @@ async function handleConfig(scope, entry, config, req, res) {
     return
   }
 
-  let raw = ''
+  let raw
   try {
     raw = await readBody(req)
   } catch (error) {
@@ -267,7 +267,9 @@ function readBody(req) {
       if (settled) return
       size += chunk.length
       if (size > MAX_BODY_BYTES) {
-        fail(Object.assign(new Error('Body too large'), { code: 'body-too-large', status: 413 }))
+        const error = coded('body-too-large', 'Body too large')
+        error.status = 413
+        fail(error)
         return
       }
       chunks.push(chunk)
