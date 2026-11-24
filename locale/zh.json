@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "字体切换",
+    "description": "在设置里选择 Web 界面与代码字体，让中英文来自同一套字体，字重保持一致。",
+    "detail": "docs/DETAIL.md"
+  }
+}

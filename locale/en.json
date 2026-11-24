@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Font switcher",
+    "description": "Choose the Web UI and code fonts in Settings so Latin and CJK text share one weight table.",
+    "detail": "docs/DETAIL.md"
+  }
+}

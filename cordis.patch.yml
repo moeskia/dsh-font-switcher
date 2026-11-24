@@ -1,0 +1,10 @@
+# Inserts the font-switcher row. Its default config pins the UI to a single
+# family so Latin and CJK glyphs resolve from the same font and weight table.
+# Both fields are volatile, so an edit to this config applies without a restart;
+# reload the page afterwards to re-render the index with the new stack.
+- insert:
+    - id: font-switcher
+      name: 'dsh-font-switcher'
+      config:
+        textFontFamily: '"Microsoft YaHei"'
+        codeFontFamily: 'Consolas, "Microsoft YaHei"'
